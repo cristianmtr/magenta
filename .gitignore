@@ -8,3 +8,5 @@
 build/
 *.DS_Store
 .vscode/*
+magenta/models/score2perf/.vscode/
+test.mid
