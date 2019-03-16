@@ -35,6 +35,10 @@ def one_hot_encode_from_magenta(s, vocab_path):
     new_seq = np.zeros((len(s), len(vocab)), dtype='uint8')
     for instruction_index in range(len(s)):
         instruction = s[instruction_index]
-        instruction_index_in_vocab = np.where(vocab == instruction)[0][0]
+        try:
+            instruction_index_in_vocab = np.where(vocab == instruction)[0][0]
+        except IndexError as e:
+            print(e)
+            print('could not find instruction %s' %instruction)
         new_seq[instruction_index, instruction_index_in_vocab] = 1
     return new_seq
