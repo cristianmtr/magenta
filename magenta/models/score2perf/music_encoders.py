@@ -147,7 +147,7 @@ class MidiPerformanceEncoder(object):
       ns = music_pb2.NoteSequence()
     return self.encode_note_sequence(ns)
 
-  def decode(self, ids, strip_extraneous=False):
+  def decode(self, ids, strip_extraneous=False, path=None):
     """Transform a sequence of event indices into a performance MIDI file.
 
     Args:
@@ -177,10 +177,16 @@ class MidiPerformanceEncoder(object):
 
     ns = performance.to_sequence()
 
-    _, tmp_file_path = tempfile.mkstemp('_decode.mid')
-    magenta.music.sequence_proto_to_midi_file(ns, tmp_file_path)
+    if path is None:
+      _, tmp_file_path = tempfile.mkstemp('_decode.mid')
+      magenta.music.sequence_proto_to_midi_file(ns, tmp_file_path)
 
-    return tmp_file_path
+      return tmp_file_path
+
+    else:
+      magenta.music.sequence_proto_to_midi_file(ns, path)
+
+      return path
 
   def decode_list(self, ids):
     """Transform a sequence of event indices into a performance MIDI file.
